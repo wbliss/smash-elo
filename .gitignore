@@ -3,3 +3,5 @@ bin
 lib
 __pycache__
 pip-selfcheck.json
+.DS_Store
+.bash_profile
