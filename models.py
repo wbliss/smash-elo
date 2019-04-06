@@ -24,11 +24,11 @@ class UserCharacter(db.Model):
     character = db.Column(db.Integer, db.ForeignKey('smash.character.id'), index=True)
     rating = db.Column(db.Integer)
 
-    def __init__(self, user, character, rating):
+    def __init__(self, user, character):
 
         self.user = user
         self.character = character
-        self.rating = rating
+        self.rating = 1200
 
     def serialize(self):
         return { 
@@ -103,10 +103,10 @@ class User(db.Model):
     overall = db.Column(db.Integer)
     characters = db.relationship(UserCharacter)
 
-    def __init__(self, name, overall):
+    def __init__(self, name):
 
         self.name = name
-        self.overall = overall
+        self.overall = 1200
 
     def serialize(self):
         return { 

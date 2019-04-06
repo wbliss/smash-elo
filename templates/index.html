@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h3>Add User</h5>
+    </div>
+
+    <form action="/" method="post">
+        <label for="name">Name</label>
+        <input type="text" name="name">
+        <input type='submit' name='add_user' value="Add User">
+    </form>
+    <hr>
+
+    <form action="/" method="post">
+        <label for="wuser">Winner</label>
+        <select id="wuser" name="wuser">
+                <option selected value="None"></option>
+            {% for user in users %}
+                <option value="{{user.id}}">{{user.name}} - {{user.overall}}</option>
+            {% endfor %}
+                
+        </select>
+        <select id="wchar" name="wchar">
+                <option selected value="None"></option>
+            {% for character in characters %}
+                <option value="{{character.id}}">{{character.name}}</option>
+            {% endfor %}
+                
+        </select>
+        <br>
+        <label for="luser">Loser</label>
+        <select id="luser" name="luser">
+                <option selected value="None"></option>
+            {% for user in users %}
+                <option value="{{user.id}}">{{user.name}} - {{user.overall}}</option>
+            {% endfor %}
+        </select>
+        <select id="lchar" name="lchar">
+                <option selected value="None"></option>
+            {% for character in characters %}
+                <option value="{{character.id}}">{{character.name}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" name="add_match" value="Add Match">        
+    </form>
+    <hr>
+    {% for user in users %}
+        <h3>{{user.name}} - {{user.overall}}</h3>
+        <ul>
+            {% for character in user.characters %}
+            <li>
+                <img src={{ url_for('static', filename = 'icons/' + character.character|string + '.png') }} height="32" width="32"/> - {{character.rating}}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}
