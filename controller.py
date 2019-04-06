@@ -1,5 +1,5 @@
 from app import app, db
-from models import Character, User, UserCharacter, Match
+from models import Character, User, UserCharacter, Match, MatchDetails
 from elo import calculate_elo
 
 from flask import flash, g, redirect, render_template, request, session, jsonify, escape
@@ -50,12 +50,18 @@ def index():
             loser_user.overall = new_elos_ov.get('loser')
             winner_userchar.rating = new_elos_char.get('winner')
             loser_userchar.rating = new_elos_char.get('loser')
-            new_match = Match(datetime.now(), wuser, luser, wchar, lchar, w_pre_ov, w_pre_char, l_pre_ov, l_pre_char, winner_user.overall, winner_userchar.rating, loser_user.overall, loser_userchar.rating)
+            new_match = Match(datetime.now(), wuser, luser)
             db.session.add(winner_user)
             db.session.add(loser_user)
             db.session.add(winner_userchar)
             db.session.add(loser_userchar)
             db.session.add(new_match)
+            db.session.flush()
+            
+            winner_matchdetails = MatchDetails(new_match.id, wuser, wchar, w_pre_ov, w_pre_char, winner_user.overall, winner_userchar.rating)
+            loser_matchdetails = MatchDetails(new_match.id, luser, lchar, l_pre_ov, l_pre_char, loser_user.overall, loser_userchar.rating)
+            db.session.add(winner_matchdetails)
+            db.session.add(loser_matchdetails)
             db.session.commit()
             
     users = User.query.all()

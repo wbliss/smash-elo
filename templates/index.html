@@ -48,11 +48,10 @@
     <hr>
     {% for user in users %}
         <h3>{{user.name}} - {{user.overall}}</h3>
-        <ul>
             {% for character in user.characters %}
-            <li>
+            <div>
                 <img src={{ url_for('static', filename = 'icons/' + character.character|string + '.png') }} height="32" width="32"/> - {{character.rating}}
-            </li>
+            </div>
             {% endfor %}
         </ul>
     {% endfor %}
